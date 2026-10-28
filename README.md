@@ -1,3 +1,7 @@
+<<h2 align="center">
+  <span style="color: #ff0000;">DeliTrack</span>: a Delivery Route and Order Tracking System
+</h2>
+
  <p align="center">
   <br>
   <samp>
@@ -12,7 +16,8 @@
 </div
 ***
 
+</a>
 
-## Project Description:
+# Project Description:
 ---
 
