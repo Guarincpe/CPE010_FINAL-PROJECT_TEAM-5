@@ -6,7 +6,7 @@
   <br>
   <samp>
     "Every order you take, Every claim you stake. I'll be watching you" 
-    <br> A Delivery Route and Order Tracking System 
+    <br>A system for tracking orders and delivery routes 
 </samp>
 
 
