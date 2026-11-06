@@ -1,7 +1,7 @@
 
 ---
 <div align="center">
-  <img src="title.svg" alt="Urban Delivery Header" width="100%" />
+  <img src="ReadMe/title.svg" alt="Urban Delivery Header" width="100%" />
 </div
 
 -
@@ -20,7 +20,7 @@
 
 ---
 <div align="center">
-  <img src="ezgif-cropped.gif" alt="Urban Delivery Header" width="100%" />
+  <img src="ReadMe/ezgif-cropped.gif" alt="Urban Delivery Header" width="100%" />
 </div
 
 ---
@@ -84,7 +84,7 @@
 
 ---
 <div align="center">
-  <img src="road.svg" alt="Urban Delivery Road" width="100%" />
+  <img src="ReadMe/road.svg" alt="Urban Delivery Road" width="100%" />
 </div>
 
 ---
