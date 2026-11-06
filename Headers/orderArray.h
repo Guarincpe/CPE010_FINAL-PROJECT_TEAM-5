@@ -1,10 +1,10 @@
 #pragma once
 
-#include "orderDetails.h"
+#include "order.h"
 
 class orderArray {
 private:
-    orderDetails** items;
+    Order** items;
     int  count;
     int  capacity;
     bool ownsOrders;
@@ -18,15 +18,15 @@ public:
     orderArray(const orderArray&) = delete;
     orderArray& operator=(const orderArray&) = delete;
 
-    bool          add(orderDetails* order);
-    orderDetails* at(int index) const;      // checked, nullptr if out of range
-    void          clear();
+    bool add(Order* order);
+    Order* at(int index) const;      // checked, nullptr if out of range
+    void clear();
 
     // Unchecked access for sorting and searching (keep 0 <= index < size).
-    orderDetails*& operator[](int index)       { return items[index]; }
-    orderDetails*  operator[](int index) const { return items[index]; }
+    Order*& operator[](int index)       { return items[index]; }
+    Order*  operator[](int index) const { return items[index]; }
 
-    int  size()        const { return count; }
+    int  size() const { return count; }
     int  getCapacity() const { return capacity; }
-    bool isEmpty()     const { return count == 0; }
+    bool isEmpty() const { return count == 0; }
 };
