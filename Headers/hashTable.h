@@ -1,14 +1,14 @@
 #pragma once
 
 #include <string>
-#include "orderDetails.h"
+#include "order.h"
 
 class hashTable {
 private:
     struct Node {
-        orderDetails* order;
+        Order* order;
         Node* next;
-        Node(orderDetails* order, Node* n) : order(order), next(n) {}
+        Node(Order* order, Node* n) : order(order), next(n) {}
     };
 
     Node** table;
@@ -29,12 +29,12 @@ public:
     hashTable(const hashTable&) = delete;
     hashTable& operator=(const hashTable&) = delete;
 
-    bool          insert(orderDetails* order);
-    orderDetails* search(const std::string& trackingNumber) const;
-    bool          remove(const std::string& trackingNumber);
+    bool insert(Order* order);
+    Order* search(const std::string& trackingNumber) const;
+    bool remove(const std::string& trackingNumber);
 
-    int    getCount()     const { return count; }
-    int    getTableSize() const { return tableSize; }
-    double loadFactor()   const { return static_cast<double>(count) / tableSize; }
-    bool   isEmpty()      const { return count == 0; }
+    int getCount() const { return count; }
+    int getTableSize() const { return tableSize; }
+    double loadFactor() const { return static_cast<double>(count) / tableSize; }
+    bool isEmpty() const { return count == 0; }
 };
