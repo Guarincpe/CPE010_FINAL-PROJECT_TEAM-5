@@ -55,7 +55,7 @@ hashTable::~hashTable() {
     delete[] table;
 }
 
-bool hashTable::insert(orderDetails* order) {
+bool hashTable::insert(Order* order) {
     if (order == nullptr)
         return false;
 
@@ -72,7 +72,7 @@ bool hashTable::insert(orderDetails* order) {
     return true;
 }
 
-orderDetails* hashTable::search(const std::string& trackingNumber) const {
+Order* hashTable::search(const std::string& trackingNumber) const {
     Node* current = table[indexFor(trackingNumber)];
     while (current != nullptr) {
         if (current->order->trackingNumber == trackingNumber)
