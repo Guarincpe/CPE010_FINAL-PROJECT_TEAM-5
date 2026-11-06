@@ -1,40 +1,32 @@
 #pragma once
 
-#include <string>
 #include "order.h"
 
-class hashTable {
+class orderArray {
 private:
-    struct Node {
-        Order* order;
-        Node* next;
-        Node(Order* order, Node* n) : order(order), next(n) {}
-    };
+    Order** items;
+    int  count;
+    int  capacity;
+    bool ownsOrders;
 
-    Node** table;
-    int tableSize;
-    int count;
-
-    static constexpr double loadFactorThreshold = 0.75;
-
-    static unsigned long rawHash(const std::string& key);
-    int  indexFor(const std::string& key) const;
-    void reHash();
-    void freeAllNodes();
+    void grow();
 
 public:
-    explicit hashTable(int initialSize = 101);
-    ~hashTable();
+    explicit orderArray(int initialCapacity = 16, bool owns = true);
+    ~orderArray();
 
-    hashTable(const hashTable&) = delete;
-    hashTable& operator=(const hashTable&) = delete;
+    orderArray(const orderArray&) = delete;
+    orderArray& operator=(const orderArray&) = delete;
 
-    bool insert(Order* order);
-    Order* search(const std::string& trackingNumber) const;
-    bool remove(const std::string& trackingNumber);
+    bool add(Order* order);
+    Order* at(int index) const;      // checked, nullptr if out of range
+    void clear();
 
-    int getCount() const { return count; }
-    int getTableSize() const { return tableSize; }
-    double loadFactor() const { return static_cast<double>(count) / tableSize; }
+    // Unchecked access for sorting and searching (keep 0 <= index < size).
+    Order*& operator[](int index){ return items[index]; }
+    Order*  operator[](int index) const { return items[index]; }
+
+    int  size() const { return count; }
+    int  getCapacity() const { return capacity; }
     bool isEmpty() const { return count == 0; }
 };
