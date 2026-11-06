@@ -1,8 +1,6 @@
-#include "Route.h"
+#include "route.h"
 #include "utils.h"
 #include <iostream>
-
-// DriverRoute
 
 DriverRoute::~DriverRoute() {
     while (head != nullptr) {
@@ -62,10 +60,6 @@ void DriverRoute::display() const {
         std::cout << "  " << n << ". " << p->trackingNumber << " | " << p->address << "\n";
 }
 
-// ---------- Menu functions ----------
-
-// Moves an existing order to the front of the route (or puts it there if it
-// is not on the route yet).
 void addUrgentStop(DriverRoute& route, const hashTable& table) {
     std::cout << "\n--- Add Urgent Stop ---\n";
     std::string tracking = readString("Tracking number: ");
@@ -87,8 +81,6 @@ void addUrgentStop(DriverRoute& route, const hashTable& table) {
               << " the front of the route.\n";
 }
 
-// Rebuilds the queue without the order that has the given id.
-// Uses only enqueue/dequeue so the arrival order of the rest is kept.
 static void removeFromQueue(OrderQueue& queue, int id) {
     int n = queue.size();
     for (int i = 0; i < n; i++) {
@@ -98,9 +90,6 @@ static void removeFromQueue(OrderQueue& queue, int id) {
     }
 }
 
-// cancels a pending order: removes it from the queue and the route and
-// marks it "Cancelled". The record stays in the hash table so it can
-// still be tracked.
 void cancelOrder(OrderQueue& queue, DriverRoute& route, hashTable& table) {
     std::cout << "\n--- Cancel Order ---\n";
     std::string tracking = readString("Tracking number: ");
