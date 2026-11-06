@@ -1,10 +1,9 @@
 #pragma once
 
 #include <string>
-#include "queue.h"        // OrderQueue, Order, readString, readChoice
+#include "queue.h"        
 #include "hashTable.h"
 
-// one stop on the driver's route (singly linked list node).
 struct RouteStop {
     std::string trackingNumber;
     std::string address;
@@ -13,13 +12,11 @@ struct RouteStop {
         : trackingNumber(t), address(a), next(nullptr) {}
 };
 
-// driver route kept as a linked list so stops can be added or removed
-// mid-route without rebuilding anything.
 class DriverRoute {
 private:
     RouteStop* head;
     RouteStop* tail;
-    int        count;
+    int count;
 
 public:
     DriverRoute() : head(nullptr), tail(nullptr), count(0) {}
@@ -28,13 +25,13 @@ public:
     DriverRoute(const DriverRoute&) = delete;
     DriverRoute& operator=(const DriverRoute&) = delete;
 
-    void addStop(const std::string& trackingNumber, const std::string& address);        // end of route, O(1)
-    void addUrgentStop(const std::string& trackingNumber, const std::string& address);  // front of route, O(1)
-    bool removeStop(const std::string& trackingNumber);                                  // O(n)
-    bool contains(const std::string& trackingNumber) const;                              // O(n)
+    void addStop(const std::string& trackingNumber, const std::string& address);        
+    void addUrgentStop(const std::string& trackingNumber, const std::string& address);  
+    bool removeStop(const std::string& trackingNumber);                                  
+    bool contains(const std::string& trackingNumber) const;                              
 
     void display() const;
-    int  size()    const { return count; }
+    int  size() const { return count; }
     bool isEmpty() const { return count == 0; }
 };
 
