@@ -2,7 +2,8 @@
 
 unsigned long hashTable::rawHash(const std::string& key) {
     unsigned long hash = 5381;
-    for (char c : key) {
+    for (std::string::size_type i = 0; i < key.length(); ++i) {
+        char c = key[i];
         hash = hash * 33 + static_cast<unsigned char>(c);
     }
     return hash;

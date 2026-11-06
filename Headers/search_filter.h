@@ -1,35 +1,42 @@
 #pragma once
 
 #include <string>
-#include "order.h"
+#include "orderArray.h"
 
 // what we can filter by
 enum FilterKey { BY_DATE = 1, BY_AREA = 2, BY_TIME = 3 };
 
-// gives the date, area, or time of an order
+// gets the date, area, or time of an order
 const std::string& getKey(const Order& o, FilterKey key);
 
-// checks if the orders are in order by the key
-bool isSortedBy(const Order orders[], int size, FilterKey key);
+// checks if the orders are sorted by the key
+bool isSortedBy(const orderArray& orders, FilterKey key);
 
-// linear search by key, gives the index or -1
-int linearSearchByKey(const Order orders[], int size, FilterKey key, const std::string& value);
+// linear search by key, returns index or -1
+// best O(1), worst O(n)
+int linearSearchByKey(const orderArray& orders, FilterKey key, const std::string& value);
 
-// linear search by tracking number, gives the index or -1
-int linearSearchByTracking(const Order orders[], int size, const std::string& trackingNumber);
+// linear search by tracking number, returns index or -1
+int linearSearchByTracking(const orderArray& orders, const std::string& trackingNumber);
 
-// binary search, the orders must be sorted by the key, gives the index or -1
-int binarySearch(const Order orders[], int size, FilterKey key, const std::string& value);
+// binary search, orders must be sorted by the key
+// returns index or -1
+// best O(1), worst O(log n)
+int binarySearch(const orderArray& orders, FilterKey key, const std::string& value);
 
-// finds the first order with a key equal to or bigger than the value
-int lowerBound(const Order orders[], int size, FilterKey key, const std::string& value);
+// finds the first index where the key is >= value
+// returns size if there is none, O(log n)
+int lowerBound(const orderArray& orders, FilterKey key, const std::string& value);
 
-// finds the orders from low to high, gives how many matched and the first index in startIndex
-int rangeFilter(const Order orders[], int size, FilterKey key,
+// finds all orders with the key from low to high
+// orders must be sorted by the key
+// sets startIndex to the first match and returns how many matched
+// O(log n + k)
+int rangeFilter(const orderArray& orders, FilterKey key,
                 const std::string& low, const std::string& high, int& startIndex);
 
 // prints one order in one line
 void printFilteredOrder(const Order& o);
 
-// asks what to filter by, then shows the orders that match
-void filterOrders(const Order orders[], int size);
+// menu option: filter orders by date, area, or time
+void filterOrders(const orderArray& orders);

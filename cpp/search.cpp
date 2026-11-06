@@ -3,51 +3,52 @@
 #include <iostream>
 #include <string>
 
-// gives the date, area, or time of an order
+// gets the date, area, or time of an order
 const std::string& getKey(const Order& o, FilterKey key) {
     if (key == BY_DATE) return o.date;
     if (key == BY_AREA) return o.area;
     return o.time;
 }
 
-// checks if the orders are in order by the key
-bool isSortedBy(const Order orders[], int size, FilterKey key) {
+// checks if the orders are sorted by the key
+bool isSortedBy(const orderArray& orders, FilterKey key) {
+    int size = orders.size();
     for (int i = 1; i < size; i++) {
-        if (getKey(orders[i], key) < getKey(orders[i - 1], key)) {
+        if (getKey(*orders[i], key) < getKey(*orders[i - 1], key)) {
             return false;
         }
     }
     return true;
 }
 
-// checks the orders one by one, gives the index or -1
-int linearSearchByKey(const Order orders[], int size, FilterKey key, const std::string& value) {
+
+int linearSearchByKey(const orderArray& orders, FilterKey key, const std::string& value) {
+    int size = orders.size();
     for (int i = 0; i < size; i++) {
-        if (getKey(orders[i], key) == value) {
+        if (getKey(*orders[i], key) == value) {
             return i;
         }
     }
     return -1;
 }
 
-// same as above but uses the tracking number
-int linearSearchByTracking(const Order orders[], int size, const std::string& trackingNumber) {
+int linearSearchByTracking(const orderArray& orders, const std::string& trackingNumber) {
+    int size = orders.size();
     for (int i = 0; i < size; i++) {
-        if (orders[i].trackingNumber == trackingNumber) {
+        if (orders[i]->trackingNumber == trackingNumber) {
             return i;
         }
     }
     return -1;
 }
 
-// cuts the sorted list in half each time, gives the index or -1
-int binarySearch(const Order orders[], int size, FilterKey key, const std::string& value) {
+int binarySearch(const orderArray& orders, FilterKey key, const std::string& value) {
     int low = 0;
-    int high = size - 1;
+    int high = orders.size() - 1;
 
     while (low <= high) {
         int mid = low + (high - low) / 2;
-        const std::string& midKey = getKey(orders[mid], key);
+        const std::string& midKey = getKey(*orders[mid], key);
 
         if (midKey == value) {
             return mid;
@@ -60,14 +61,13 @@ int binarySearch(const Order orders[], int size, FilterKey key, const std::strin
     return -1;
 }
 
-// finds the first order with a key equal to or bigger than the value
-int lowerBound(const Order orders[], int size, FilterKey key, const std::string& value) {
+int lowerBound(const orderArray& orders, FilterKey key, const std::string& value) {
     int low = 0;
-    int high = size;
+    int high = orders.size();
 
     while (low < high) {
         int mid = low + (high - low) / 2;
-        if (getKey(orders[mid], key) < value) {
+        if (getKey(*orders[mid], key) < value) {
             low = mid + 1;
         } else {
             high = mid;
@@ -76,34 +76,31 @@ int lowerBound(const Order orders[], int size, FilterKey key, const std::string&
     return low;
 }
 
-// finds the first match, then goes forward until the key is past high
-int rangeFilter(const Order orders[], int size, FilterKey key,
+int rangeFilter(const orderArray& orders, FilterKey key,
                 const std::string& low, const std::string& high, int& startIndex) {
-    startIndex = lowerBound(orders, size, key, low);
+    startIndex = lowerBound(orders, key, low);
 
+    int size = orders.size();
     int count = 0;
     int i = startIndex;
-    while (i < size && getKey(orders[i], key) <= high) {
+    while (i < size && getKey(*orders[i], key) <= high) {
         count++;
         i++;
     }
     return count;
 }
 
-// prints one order in one line
 void printFilteredOrder(const Order& o) {
     std::cout << o.trackingNumber << " | " << o.customerName << " | " << o.item
               << " | " << o.area << " | " << o.date << " | " << o.time << "\n";
 }
 
-// asks what to filter by, then shows the orders that match
-void filterOrders(const Order orders[], int size) {
-    if (size == 0) {
+void filterOrders(const orderArray& orders) {
+    if (orders.isEmpty()) {
         std::cout << "There are no orders yet.\n";
         return;
     }
 
-    // keep asking until the choice is valid
     int choice = 0;
     while (choice < 1 || choice > 3) {
         std::cout << "Filter by: 1. Date  2. Area  3. Time\nChoice: ";
@@ -117,14 +114,12 @@ void filterOrders(const Order orders[], int size) {
     }
     FilterKey key = static_cast<FilterKey>(choice);
 
-    // binary search only works on sorted orders
-    if (!isSortedBy(orders, size, key)) {
+    if (!isSortedBy(orders, key)) {
         std::cout << "The orders are not sorted by this yet.\n"
                   << "Please sort them first, then try again.\n";
         return;
     }
 
-    // leave To empty to search one value
     std::string from, to;
     std::cout << "From: ";
     std::getline(std::cin, from);
@@ -133,16 +128,15 @@ void filterOrders(const Order orders[], int size) {
     if (to.empty()) to = from;
 
     int start = 0;
-    int count = rangeFilter(orders, size, key, from, to, start);
+    int count = rangeFilter(orders, key, from, to, start);
 
     if (count == 0) {
         std::cout << "No orders found.\n";
         return;
     }
 
-    // show the matches
     std::cout << count << " order(s) found:\n";
     for (int i = start; i < start + count; i++) {
-        printFilteredOrder(orders[i]);
+        printFilteredOrder(*orders[i]);
     }
 }

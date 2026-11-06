@@ -33,8 +33,8 @@ public:
     Order* search(const std::string& trackingNumber) const;
     bool remove(const std::string& trackingNumber);
 
-    int getCount()     const { return count; }
+    int getCount() const { return count; }
     int getTableSize() const { return tableSize; }
-    double loadFactor()   const { return static_cast<double>(count) / tableSize; }
-    bool isEmpty()      const { return count == 0; }
+    double loadFactor() const { return static_cast<double>(count) / tableSize; }
+    bool isEmpty() const { return count == 0; }
 };

@@ -1,12 +1,11 @@
 #pragma once
 
-#include <vector>
-#include "order.h"
+#include "orderArray.h"
+#include "search_filter.h"   
 
-bool isSmaller(const Order& a, const Order& b, bool sortByArea);
-void mergeHalves(std::vector<Order>& arr, int left, int mid, int right, bool sortByArea);
-void mergeSort(std::vector<Order>& arr, int left, int right, bool sortByArea);
+bool isSmaller(const Order& a, const Order& b, FilterKey key);
+void mergeHalves(orderArray& arr, int left, int mid, int right, FilterKey key);
+void mergeSort(orderArray& arr, int left, int right, FilterKey key);
 
-std::vector<Order> generateRandomOrders(int numOrders);
-void sortOrders(std::vector<Order>& orders);
-void runBenchmark();
+// menu action: sorts orders by date, area, or time
+void sortOrders(orderArray& orders);
